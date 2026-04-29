@@ -46,6 +46,7 @@ interface CopilotTokenResponse {
 // ── Copilot session token cache ──────────────────────────────────────────────
 
 let _cachedCopilotToken: { token: string; expiresAt: number } | null = null;
+let _tokenFetchPromise: Promise<string> | null = null;
 
 /** Exchange the stored OAuth access token for a short-lived Copilot session token. Cached until near-expiry. */
 export async function getCopilotSessionToken(settings: GitHubCopilotSettings): Promise<string> {
@@ -53,21 +54,36 @@ export async function getCopilotSessionToken(settings: GitHubCopilotSettings): P
         return _cachedCopilotToken.token;
     }
 
-    const response = await requestUrl({
-        url: 'https://api.github.com/copilot_internal/v2/token',
-        headers: {
-            'Authorization': `token ${settings.githubAccessToken}`,
-            'Accept': 'application/json',
-        },
-    });
+    // Deduplicate concurrent fetches — all callers await the same promise
+    if (_tokenFetchPromise) return _tokenFetchPromise;
 
-    const data = response.json as CopilotTokenResponse;
-    _cachedCopilotToken = { token: data.token, expiresAt: data.expires_at * 1000 };
-    return data.token;
+    _tokenFetchPromise = (async () => {
+        try {
+            const response = await requestUrl({
+                url: 'https://api.github.com/copilot_internal/v2/token',
+                headers: {
+                    'Authorization': `token ${settings.githubAccessToken}`,
+                    'Accept': 'application/json',
+                },
+            });
+
+            const data = response.json as CopilotTokenResponse;
+            if (!data.token) {
+                throw new Error('GitHub Copilot session token response missing token field — OAuth token may be expired or revoked.');
+            }
+            _cachedCopilotToken = { token: data.token, expiresAt: data.expires_at * 1000 };
+            return data.token;
+        } finally {
+            _tokenFetchPromise = null;
+        }
+    })();
+
+    return _tokenFetchPromise;
 }
 
 export function clearCopilotTokenCache() {
     _cachedCopilotToken = null;
+    _tokenFetchPromise = null;
 }
 
 // ── Device flow ───────────────────────────────────────────────────────────────

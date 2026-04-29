@@ -1,6 +1,6 @@
 # Kindle Scribe Notes Sync
 
-Private fork of the [Kindle Scribe Notes Sync plugin](https://github.com/k4rnaj1k/obsidian-kindle-scribe-sync) for Obsidian.
+A fork of the [obsidian-kindle-scribe-sync plugin](https://github.com/k4rnaj1k/obsidian-kindle-scribe-sync), extended with OCR, AI summaries, diagram extraction, delta sync, and GitHub Copilot support.
 
 ## Features
 
@@ -54,8 +54,8 @@ Private fork of the [Kindle Scribe Notes Sync plugin](https://github.com/k4rnaj1
 ### 1. Clone and install
 
 ```bash
-git clone <your-repo-url>
-cd obsidian_kindle_scribe_plugin
+git clone https://github.com/rmurray68/kindle_scribe_obsidian_plugin
+cd kindle_scribe_obsidian_plugin
 npm install
 ```
 
@@ -66,7 +66,7 @@ npm run deploy
 ```
 
 This builds the plugin and opens a native macOS folder picker. Select your Obsidian vault root folder and the script will:
-- Create `.obsidian/plugins/rm-kindle-scribe-notes-sync/` if it doesn't exist
+- Create `.obsidian/plugins/kindle-scribe-notes-sync/` if it doesn't exist
 - Copy `main.js`, `manifest.json`, and `styles.css` into it
 - Show a confirmation dialog when done
 
@@ -88,13 +88,12 @@ Select your provider from the dropdown at the top of the settings page.
 
 #### GitHub Copilot — Recommended
 
-No API key required. Uses your existing GitHub Enterprise login via OAuth device flow.
+No API key required. Uses your existing GitHub login via OAuth device flow.
 
-1. Set **GitHub Base URL** — leave as `https://github.com` for GitHub Enterprise Cloud, or change to your Enterprise Server hostname
+1. Leave **GitHub Base URL** as `https://github.com` (change only if using GitHub Enterprise Server)
 2. Click **Connect with GitHub**
-3. A modal shows a one-time code — click **Open in Browser**, go to `github.com/login/device`, enter the code
-4. GitHub handles SAML/SSO automatically
-5. Choose your **Model**:
+3. A modal shows a one-time code — click **Open in Browser**, go to `github.com/login/device`, and enter the code
+4. Choose your **Model**:
 
 | Model | Notes |
 |-------|-------|
