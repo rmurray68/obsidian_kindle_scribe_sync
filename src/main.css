@@ -1,0 +1,49 @@
+ /* loading keyframe */
+ @keyframes loading {
+     0% {
+         transform: rotate(0);
+     }
+
+     100% {
+         transform: rotate(360deg);
+     }
+ }
+
+ /* apply the loading keyframe to element */
+ .rotate {
+     animation: loading 3s linear infinite;
+ }
+
+ .notes-content {
+    max-height: 400px;
+    min-height: 200px;
+    overflow-y: scroll;
+    border-radius: var(--modal-radius);
+    border: var(--modal-border-color) var(--modal-border-width) solid;
+ }
+
+ .file-modal {
+    max-height: 500px;
+    transition: height 0.15s ease-out;
+ }
+ .non-notes-content {
+     height: 340px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+ .error-text {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+ }
+
+ .file-row {
+    display: grid;
+    margin-left: 30px;
+    margin-right: 30px;
+    grid-template-columns: 1fr auto;
+    margin-top: 15px;
+    align-items: center;
+ }
