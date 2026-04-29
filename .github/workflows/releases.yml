@@ -5,7 +5,7 @@ on:
     types: [published]
 
 env:
-  PLUGIN_NAME: obsidian-kindle-plugin
+  PLUGIN_NAME: kindle-scribe-notes-sync
 
 jobs:
   build:
@@ -24,16 +24,14 @@ jobs:
         run: |
           npm install
           npm run lint
-          npm run test-verbose
           npm run build
-          zip -r -j ${{ env.PLUGIN_NAME }}.zip dist -x "*.map"
-          ls
+          zip -r -j ${{ env.PLUGIN_NAME }}.zip main.js manifest.json styles.css
           echo "tag_name=$(git tag --sort version:refname | tail -n 1)" >> $GITHUB_OUTPUT
 
       - name: Upload release assets
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ./dist/main.js
-            ./dist/manifest.json
+            ./main.js
+            ./manifest.json
             ./${{ env.PLUGIN_NAME }}.zip
