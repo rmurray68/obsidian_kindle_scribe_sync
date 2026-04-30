@@ -159,8 +159,6 @@ export async function processNotebookPages(
     for (let i = 0; i < imageB64List.length; i++) {
         const imgBase64 = imageB64List[i];
         if (!imgBase64) continue;
-        // Small inter-page delay to avoid Copilot rate-limiting on multi-page notebooks
-        if (i > 0) await new Promise(r => setTimeout(r, 1500));
         try {
             const analysis: NotebookAnalysis = await analyzeNotebookPage(imgBase64, llmSettings);
             notice.setMessage(`Analyzing ${i + 1} out of ${imageB64List.length}`);

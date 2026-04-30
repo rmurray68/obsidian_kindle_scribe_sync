@@ -40,7 +40,7 @@ const Note = ({ file, folderPath }: { file: FileData; folderPath: string }) => {
 
     return (<div className="file-row">
         {file.title}
-        {!isConfigured && <Tooltip id="ai-download-tooltip" place="top">Azure OpenAI not configured. Go to Settings → Kindle Scribe Notes Sync to add your credentials.</Tooltip>}
+        {!isConfigured && <Tooltip id="ai-download-tooltip" place="top">LLM provider not configured. Go to Settings → Kindle Scribe Notes Sync to add your credentials.</Tooltip>}
         {activeJob
             ? <RenderJobProgress percentage={activeJob.progress} />
             : <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>

@@ -100,7 +100,7 @@ const NotesControls = ({ contentLoading, refetch, setIsLoggedOut, data, onSyncAl
                     <Download size={16} /> + <Bot size={16} /> PDF + OCR
                 </button>
             </div>
-            {!isConfigured && <Tooltip id="sync-all-tooltip" place="top">Azure OpenAI not configured. Go to Settings → Kindle Scribe Notes Sync to add your credentials.</Tooltip>}
+            {!isConfigured && <Tooltip id="sync-all-tooltip" place="top">LLM provider not configured. Go to Settings → Kindle Scribe Notes Sync to add your credentials.</Tooltip>}
         </div>
     </div>;
 };
