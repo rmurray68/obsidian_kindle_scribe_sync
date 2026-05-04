@@ -45,7 +45,7 @@ async function callCopilot(
     const copilotSettings = settings.githubCopilot;
     const copilotToken = await getCopilotSessionToken(copilotSettings);
 
-    let response;
+    let response!: Awaited<ReturnType<typeof requestUrl>>;
     try {
         response = await requestUrl({
             url: 'https://api.githubcopilot.com/chat/completions',

@@ -9,6 +9,7 @@
  * processNotebookDiagrams — on-demand diagram detection + Mermaid conversion
  */
 import { Notice, normalizePath, TFile, App } from 'obsidian';
+import { Buffer } from 'buffer';
 import { LlmSettings, NotebookAnalysis } from '../types';
 import { callLlm } from './llmService';
 import { OCR_SYSTEM_PROMPT } from '../prompts/ocrPrompt';
@@ -40,9 +41,9 @@ async function analyzeNotebookPage(
 
     for (let attempt = 0; attempt < maxRetries; attempt++) {
         try {
-            console.log(`[OCR] Using ${providerLabel}`);
+            console.debug(`[OCR] Using ${providerLabel}`);
             const content = await callLlm(messages, llmSettings, responseFormat);
-            const parsed = JSON.parse(content);
+            const parsed = JSON.parse(content) as NotebookAnalysis;
 
             if (typeof parsed.text !== 'string') {
                 throw new Error('Invalid LLM response: missing or invalid "text" field');
@@ -56,7 +57,7 @@ async function analyzeNotebookPage(
                 }
             }
 
-            return parsed as NotebookAnalysis;
+            return parsed;
 
         } catch (error) {
             console.error(`[OCR] Page analysis failed (attempt ${attempt + 1}):`, error);
@@ -94,7 +95,7 @@ async function analyzeNotebookPageForDiagrams(
     for (let attempt = 0; attempt < maxRetries; attempt++) {
         try {
             const content = await callLlm(messages, llmSettings, { type: 'json_object' });
-            const parsed = JSON.parse(content);
+            const parsed = JSON.parse(content) as NotebookAnalysis;
             if (!Array.isArray(parsed.crops)) parsed.crops = [];
             return { text: '', crops: parsed.crops };
         } catch (error) {
@@ -119,7 +120,7 @@ async function analyzeDiagram(
     ];
     try {
         const raw = await callLlm(messages, llmSettings, { type: 'json_object' });
-        const parsed = JSON.parse(raw);
+        const parsed = JSON.parse(raw) as { mermaid?: string };
         return typeof parsed.mermaid === 'string' ? parsed.mermaid.trim() : null;
     } catch (e) {
         console.warn('[OCR] Mermaid conversion failed:', e);

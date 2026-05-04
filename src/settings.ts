@@ -41,14 +41,16 @@ export class ScribeSettingsTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        containerEl.createEl('h2', { text: 'Kindle Scribe Notes Sync — Settings' });
-
         // ── Provider selector ─────────────────────────────────────────────────
         new Setting(containerEl)
-            .setName('LLM Provider')
+            // eslint-disable-next-line obsidianmd/ui/sentence-case
+            .setName('LLM provider')
+            // eslint-disable-next-line obsidianmd/ui/sentence-case
             .setDesc('Choose which LLM service to use for OCR and analysis.')
             .addDropdown(drop => {
+                // eslint-disable-next-line obsidianmd/ui/sentence-case
                 drop.addOption('azure', 'Azure OpenAI');
+                // eslint-disable-next-line obsidianmd/ui/sentence-case
                 drop.addOption('github-copilot', 'GitHub Copilot');
                 drop.setValue(this.plugin.settings.provider);
                 drop.onChange(async (value) => {
@@ -60,10 +62,12 @@ export class ScribeSettingsTab extends PluginSettingTab {
 
         // ── Azure section ─────────────────────────────────────────────────────
         if (this.plugin.settings.provider === 'azure') {
-            containerEl.createEl('h3', { text: 'Azure OpenAI Configuration' });
+            // eslint-disable-next-line obsidianmd/ui/sentence-case
+            new Setting(containerEl).setName("Azure OpenAI configuration").setHeading();
 
             new Setting(containerEl)
-                .setName('API Key')
+                .setName('API key')
+                // eslint-disable-next-line obsidianmd/ui/sentence-case
                 .setDesc('Your Azure OpenAI API key')
                 .addText(text => {
                     text.inputEl.type = 'password';
@@ -88,9 +92,11 @@ export class ScribeSettingsTab extends PluginSettingTab {
                 });
 
             new Setting(containerEl)
-                .setName('Deployment Name')
+                .setName('Deployment name')
+                // eslint-disable-next-line obsidianmd/ui/sentence-case
                 .setDesc('The name of your Azure OpenAI deployment')
                 .addText(text => {
+                    // eslint-disable-next-line obsidianmd/ui/sentence-case
                     text.setPlaceholder('gpt-4o')
                         .setValue(this.plugin.settings.azure.azureDeploymentName)
                         .onChange(async (value) => {
@@ -100,7 +106,8 @@ export class ScribeSettingsTab extends PluginSettingTab {
                 });
 
             new Setting(containerEl)
-                .setName('API Version')
+                .setName('API version')
+                // eslint-disable-next-line obsidianmd/ui/sentence-case
                 .setDesc('Azure OpenAI API version')
                 .addText(text => {
                     text.setPlaceholder('2024-02-15-preview')
@@ -114,14 +121,17 @@ export class ScribeSettingsTab extends PluginSettingTab {
 
         // ── GitHub Copilot section ─────────────────────────────────────────────
         if (this.plugin.settings.provider === 'github-copilot') {
-            containerEl.createEl('h3', { text: 'GitHub Copilot Configuration' });
+            // eslint-disable-next-line obsidianmd/ui/sentence-case
+            new Setting(containerEl).setName("GitHub Copilot configuration").setHeading();
 
             containerEl.createEl('p', {
+                // eslint-disable-next-line obsidianmd/ui/sentence-case
                 text: 'Sign in with your GitHub account to use Copilot for OCR. No OAuth App setup required.',
-            }).style.cssText = 'color:var(--text-muted); font-size:0.9em; margin-bottom:12px;';
+                cls: 'scribe-setting-info',
+            });
 
             new Setting(containerEl)
-                .setName('GitHub Base URL')
+                .setName('GitHub base URL')
                 .setDesc('Leave as-is for github.com / GitHub Enterprise Cloud. Change for GitHub Enterprise Server.')
                 .addText(text => {
                     text.setPlaceholder('https://github.com')
@@ -139,7 +149,7 @@ export class ScribeSettingsTab extends PluginSettingTab {
                 : 'Not connected';
 
             new Setting(containerEl)
-                .setName('GitHub Account')
+                .setName('GitHub account')
                 .setDesc(statusText)
                 .addButton(btn => {
                     btn.setButtonText(isConnected ? 'Disconnect' : 'Connect with GitHub')
@@ -162,6 +172,7 @@ export class ScribeSettingsTab extends PluginSettingTab {
 
             new Setting(containerEl)
                 .setName('Model')
+                // eslint-disable-next-line obsidianmd/ui/sentence-case
                 .setDesc('Which Copilot model to use for OCR analysis.')
                 .addDropdown(drop => {
                     for (const { value, label } of GITHUB_COPILOT_MODELS) {

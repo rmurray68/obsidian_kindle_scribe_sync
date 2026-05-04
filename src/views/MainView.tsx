@@ -21,7 +21,7 @@ const NotesError = ({ refetch }: { refetch: RefetchFn }) => {
         <p>Probably caused by <b>outdated/non-existing</b> Amazon cookies.<br />
             Try to login with this button:
         </p>
-        <button onClick={() => void doAmazonLogin().then(login => { if (login) refetch(); })}>Login to Amazon</button>
+        <button onClick={() => void doAmazonLogin().then(login => { if (login) void refetch(); })}>Login to Amazon</button>
         <code style={{ paddingTop: '15px' }}>If that doesn't work - try <b>Logging out and then logging in</b>.</code>
     </div>;
 };

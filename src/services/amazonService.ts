@@ -2,8 +2,23 @@
  * Amazon service - handles all Amazon Kindle API interactions and authentication
  */
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any
-const remote = (require('electron') as any).remote;
+interface ElectronCookie { name: string; value: string; }
+interface ElectronBrowserWindow {
+    once(event: string, listener: () => void): void;
+    setTitle(title: string): void;
+    show(): void;
+    close(): void;
+    webContents: { on(event: string, listener: (event: unknown, url: string) => void): void; };
+    on(event: string, listener: () => void): void;
+    loadURL(url: string): Promise<void>;
+}
+interface ElectronRemote {
+    BrowserWindow: new (options: object) => ElectronBrowserWindow;
+    session: { defaultSession: { cookies: { get(filter: { domain: string }): Promise<ElectronCookie[]>; }; }; };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
+const remote = (require('electron') as { remote: ElectronRemote }).remote;
 import { requestUrl } from "obsidian";
 import { FileData } from '../types';
 
@@ -45,7 +60,7 @@ async function requestWithRetry(options: { url: string; headers: Record<string, 
             const isRateLimited = msg.includes('400') || msg.includes('429');
             if (!isRateLimited || attempt === MAX_RETRIES) throw e;
             const delay = BASE_DELAY_MS * Math.pow(2, attempt);
-            console.log(`[Amazon] Request failed (${msg}), retrying in ${delay}ms (attempt ${attempt + 1}/${MAX_RETRIES})`);
+            console.debug(`[Amazon] Request failed (${msg}), retrying in ${delay}ms (attempt ${attempt + 1}/${MAX_RETRIES})`);
             await sleep(delay);
         }
     }
@@ -58,7 +73,7 @@ export const getAmazonApi = async <T extends object>(endpointUrl: string, header
         headers: {
             Cookie: await getAmazonCookies(),
             ...headers
-        } as Record<string, string>
+        }
     });
     return result.json as T;
 };
@@ -100,6 +115,7 @@ export const doAmazonLogin = async (): Promise<boolean> => {
     const modal = createAuthWindow();
 
     modal.once('ready-to-show', () => {
+        // eslint-disable-next-line obsidianmd/ui/sentence-case
         modal.setTitle('Connect your Amazon account to Obsidian');
         modal.show();
     });

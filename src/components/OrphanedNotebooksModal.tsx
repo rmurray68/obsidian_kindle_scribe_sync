@@ -29,7 +29,7 @@ export const OrphanedNotebooksModal = ({ orphans, app, onDone }: OrphanedNoteboo
             try {
                 await removeOrphanedNotebook(app, orphan.id);
                 deleted++;
-            } catch (e) {
+            } catch {
                 new Notice(`Failed to delete "${orphan.title}"`);
             }
         }

@@ -11,8 +11,10 @@
 import { App, Modal, Notice, requestUrl } from 'obsidian';
 import { GitHubCopilotSettings } from '../types';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any
-const shell = (require('electron') as any).remote?.shell ?? (require('electron') as any).shell;
+interface ElectronShell { openExternal(url: string): Promise<void>; }
+// eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
+const _e = require('electron') as { remote?: { shell?: ElectronShell }; shell?: ElectronShell };
+const shell: ElectronShell = (_e.remote?.shell ?? _e.shell) as ElectronShell;
 
 /**
  * Public OAuth application identifier used by the GitHub Copilot VS Code extension.
@@ -106,12 +108,13 @@ export async function runDeviceFlow(
         });
         deviceData = res.json as DeviceCodeResponse;
     } catch (e) {
+        // eslint-disable-next-line obsidianmd/ui/sentence-case
         new Notice('GitHub device flow failed — check your network or GitHub Base URL.');
         console.error('[GitHubCopilot] Device code request failed:', e);
         return;
     }
 
-    const modal = new GitHubDeviceFlowModal(app, deviceData, async () => {
+    const modal = new GitHubDeviceFlowModal(app, deviceData, () => {
         // User cancelled
     });
     modal.open();
@@ -123,6 +126,7 @@ export async function runDeviceFlow(
     if (token) {
         clearCopilotTokenCache();
         await onTokenReceived(token);
+        // eslint-disable-next-line obsidianmd/ui/sentence-case
         new Notice('GitHub Copilot connected successfully!');
     } else {
         new Notice('GitHub authorisation timed out or was denied.');
@@ -179,6 +183,7 @@ class GitHubDeviceFlowModal extends Modal {
         const { contentEl } = this;
         contentEl.empty();
 
+        // eslint-disable-next-line obsidianmd/ui/sentence-case
         contentEl.createEl('h2', { text: 'Connect GitHub Copilot' });
         contentEl.createEl('p', { text: 'Visit the link below and enter your one-time code to authorise.' });
 
@@ -187,36 +192,32 @@ class GitHubDeviceFlowModal extends Modal {
             text: this.data.verification_uri,
             href: this.data.verification_uri,
         });
-        urlEl.style.cssText = 'display:block; margin-bottom:12px; font-size:0.95em;';
+        urlEl.addClasses(['copilot-modal-url']);
         urlEl.addEventListener('click', (e) => {
             e.preventDefault();
             void shell.openExternal(this.data.verification_uri);
         });
 
         // User code — big and bold
-        const codeEl = contentEl.createEl('div', { text: this.data.user_code });
-        codeEl.style.cssText = 'font-size:2em; font-weight:bold; letter-spacing:0.15em; margin:12px 0; font-family:monospace;';
+        contentEl.createEl('div', { text: this.data.user_code, cls: 'copilot-modal-code' });
 
         // Buttons row
-        const btnRow = contentEl.createEl('div');
-        btnRow.style.cssText = 'display:flex; gap:8px; margin-top:16px;';
+        const btnRow = contentEl.createEl('div', { cls: 'copilot-modal-btnrow' });
 
-        const copyBtn = btnRow.createEl('button', { text: 'Copy Code' });
+        const copyBtn = btnRow.createEl('button', { text: 'Copy code' });
         copyBtn.addEventListener('click', () => {
             navigator.clipboard.writeText(this.data.user_code).catch(() => {});
             copyBtn.setText('Copied!');
-            setTimeout(() => copyBtn.setText('Copy Code'), 2000);
+            setTimeout(() => copyBtn.setText('Copy code'), 2000);
         });
 
-        const openBtn = btnRow.createEl('button', { text: 'Open in Browser' });
-        openBtn.style.cssText = 'flex:1;';
+        const openBtn = btnRow.createEl('button', { text: 'Open in browser', cls: 'copilot-modal-open' });
         openBtn.addEventListener('click', () => {
             void shell.openExternal(this.data.verification_uri);
         });
 
         // Status
-        const status = contentEl.createEl('p', { text: 'Waiting for authorisation…' });
-        status.style.cssText = 'margin-top:16px; color:var(--text-muted); font-size:0.9em;';
+        contentEl.createEl('p', { text: 'Waiting for authorisation…', cls: 'copilot-modal-status' });
     }
 
     onClose() {

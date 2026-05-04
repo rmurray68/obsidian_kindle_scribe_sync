@@ -25,7 +25,7 @@ async function resizePngToJpegDataUrl(
 
         if (typeof OffscreenCanvas !== 'undefined') {
             canvas = new OffscreenCanvas(targetW, targetH);
-            ctx = canvas.getContext('2d') as OffscreenCanvasRenderingContext2D;
+            ctx = canvas.getContext('2d');
         } else {
             canvas = document.createElement('canvas');
             canvas.width = targetW;
