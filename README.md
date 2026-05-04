@@ -54,8 +54,8 @@ A fork of the [obsidian-kindle-scribe-sync plugin](https://github.com/k4rnaj1k/o
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/rmurray68/kindle_scribe_obsidian_plugin
-cd kindle_scribe_obsidian_plugin
+git clone https://github.com/rmurray68/obsidian_kindle_scribe_sync
+cd obsidian_kindle_scribe_sync
 npm install
 ```
 
