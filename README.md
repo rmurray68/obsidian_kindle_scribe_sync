@@ -51,22 +51,14 @@ A fork of the [obsidian-kindle-scribe-sync plugin](https://github.com/k4rnaj1k/o
 
 ## Installation
 
-### From GitHub Releases (recommended)
+This plugin is not in the Obsidian Community Plugins directory. Install it via [BRAT](https://github.com/TfTHacker/obsidian42-brat) (Beta Reviewers Auto-update Tester).
 
-1. Go to the [Releases](https://github.com/rmurray68/obsidian_kindle_scribe_sync/releases) page
-2. Download `kindle-scribe-notes-sync.zip` from the latest release
-3. Unzip it into your vault's `.obsidian/plugins/` folder
-4. Restart Obsidian and enable the plugin under **Settings → Community Plugins**
-
-### From source
-
-```bash
-git clone https://github.com/rmurray68/obsidian_kindle_scribe_sync
-cd obsidian_kindle_scribe_sync
-npm install && npm run build
-```
-
-Then copy `main.js`, `manifest.json`, and `styles.css` into `.obsidian/plugins/kindle-scribe-notes-sync/` in your vault.
+1. Install **BRAT** from the Obsidian Community Plugins directory (**Settings → Community Plugins → Browse**, search for `BRAT`)
+2. Enable BRAT, then open its settings (**Settings → BRAT**)
+3. Click **Add Beta plugin**
+4. Paste the repository URL: `https://github.com/rmurray68/obsidian_kindle_scribe_sync`
+5. Click **Add Plugin**
+6. Go to **Settings → Community Plugins** and enable **Kindle Scribe Notes Sync**
 
 ## Configuration
 
