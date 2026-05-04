@@ -1,7 +1,7 @@
 {
 	"id": "kindle-scribe-notes-sync",
 	"name": "Kindle Scribe Notes Sync",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"minAppVersion": "1.0.0",
 	"description": "Synchronizes and processes notes from Kindle Scribe into Obsidian with OCR, diagram extraction, and AI summaries.",
 	"author": "Rich Murray",
