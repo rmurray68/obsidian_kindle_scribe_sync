@@ -1,8 +1,9 @@
 name: Build obsidian plugin
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - '*'
 
 env:
   PLUGIN_NAME: kindle-scribe-notes-sync
