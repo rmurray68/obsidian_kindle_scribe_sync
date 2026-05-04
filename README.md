@@ -51,30 +51,22 @@ A fork of the [obsidian-kindle-scribe-sync plugin](https://github.com/k4rnaj1k/o
 
 ## Installation
 
-### 1. Clone and install
+### From GitHub Releases (recommended)
+
+1. Go to the [Releases](https://github.com/rmurray68/obsidian_kindle_scribe_sync/releases) page
+2. Download `kindle-scribe-notes-sync.zip` from the latest release
+3. Unzip it into your vault's `.obsidian/plugins/` folder
+4. Restart Obsidian and enable the plugin under **Settings → Community Plugins**
+
+### From source
 
 ```bash
 git clone https://github.com/rmurray68/obsidian_kindle_scribe_sync
 cd obsidian_kindle_scribe_sync
-npm install
+npm install && npm run build
 ```
 
-### 2. Deploy
-
-```bash
-npm run deploy
-```
-
-This builds the plugin and opens a native macOS folder picker. Select your Obsidian vault root folder and the script will:
-- Create `.obsidian/plugins/kindle-scribe-notes-sync/` if it doesn't exist
-- Copy `main.js`, `manifest.json`, and `styles.css` into it
-- Show a confirmation dialog when done
-
-Run `npm run deploy` again any time you pull updates.
-
-### 3. Enable in Obsidian
-
-Settings → Community Plugins → Enable "Kindle Scribe Notes Sync"
+Then copy `main.js`, `manifest.json`, and `styles.css` into `.obsidian/plugins/kindle-scribe-notes-sync/` in your vault.
 
 ## Configuration
 
@@ -234,10 +226,7 @@ Kindle Scribe Notes/
 │   └── views/
 │       ├── MainView.tsx            # Main plugin view
 │       └── NoCookiesView.tsx       # Login prompt
-├── scripts/
-│   ├── deploy-gui.mjs              # GUI deployer (npm run deploy) — macOS folder picker
-│   ├── deploy_plugin.sh            # Legacy shell deployer (prompts for path)
-│   └── release.sh                  # Interactive release script (patch/minor/major)
+├── release.sh                      # Release script — bumps version, tags, pushes
 ├── manifest.json
 ├── package.json
 └── tsconfig.json
@@ -254,10 +243,15 @@ npm run lint
 
 # Production build
 npm run build
-
-# Build and deploy to a vault (opens folder picker)
-npm run deploy
 ```
+
+### Releasing
+
+```bash
+./release.sh 1.2.3
+```
+
+Bumps the version in `manifest.json`, `package.json`, and `versions.json`, commits, tags, and pushes. GitHub Actions will build and attach the release assets automatically.
 
 ## License
 
