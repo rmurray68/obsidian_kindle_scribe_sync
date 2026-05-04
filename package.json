@@ -1,41 +1,41 @@
 {
-	"name": "kindle-scribe-notes-sync",
-	"version": "1.0.0",
-	"description": "This is a plugin for Obsidian (https://obsidian.md) to retrieve Kindle Scribe notes",
-	"type": "module",
-	"scripts": {
-		"dev": "node esbuild.config.mjs",
-		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
-		"deploy": "node scripts/deploy-gui.mjs",
-		"version": "node version-bump.mjs && git add manifest.json versions.json",
-		"lint": "eslint ."
-	},
-	"keywords": [],
-	"license": "MIT",
-	"devDependencies": {
-		"@eslint/js": "9.30.1",
-		"@types/js-untar": "^2.0.0",
-		"@types/node": "^16.11.6",
-		"@types/react": "^19.2.14",
-		"@types/react-dom": "^19.2.3",
-		"electron": "^41.2.1",
-		"esbuild": "0.25.5",
-		"eslint-plugin-obsidianmd": "0.1.9",
-		"globals": "14.0.0",
-		"jiti": "2.6.1",
-		"tslib": "2.4.0",
-		"typescript": "^5.8.3",
-		"typescript-eslint": "^8.57.0"
-	},
-	"dependencies": {
-		"@tanstack/react-query": "^5.90.21",
-		"js-untar": "^2.0.0",
-		"jspdf": "^4.1.0",
-		"lucide-react": "^0.577.0",
-		"obsidian": "latest",
-		"react": "^19.2.4",
-		"react-dom": "^19.2.4",
-		"react-tooltip": "^5.30.0",
-		"workerpool": "^10.0.1"
-	}
+  "name": "kindle-scribe-notes-sync",
+  "version": "1.0.0",
+  "description": "This is a plugin for Obsidian (https://obsidian.md) to retrieve Kindle Scribe notes",
+  "type": "module",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "deploy": "node scripts/deploy-gui.mjs",
+    "version": "node version-bump.mjs && git add manifest.json versions.json",
+    "lint": "eslint ."
+  },
+  "keywords": [],
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "9.30.1",
+    "@types/js-untar": "^2.0.0",
+    "@types/node": "^16.11.6",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "electron": "^41.2.1",
+    "esbuild": "0.25.5",
+    "eslint-plugin-obsidianmd": "0.1.9",
+    "globals": "14.0.0",
+    "jiti": "2.6.1",
+    "tslib": "2.4.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.57.0"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.21",
+    "js-untar": "^2.0.0",
+    "jspdf": "^4.1.0",
+    "lucide-react": "^0.577.0",
+    "obsidian": "latest",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-tooltip": "^5.30.0",
+    "workerpool": "^10.0.1"
+  }
 }
